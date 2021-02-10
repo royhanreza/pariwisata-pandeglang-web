@@ -38,7 +38,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link {{ request()->is('pengelola') ? 'active' : ''}}">
+          <a href="{{ url('/pengelola') }}" class="nav-link {{ request()->is('pengelola') ? 'active' : ''}}">
             <i class="nav-icon fas fa-th"></i>
             <p>
               Pengelola

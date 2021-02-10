@@ -41,28 +41,29 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <button class="btn btn-primary mb-3">Tambah Data</button>
-              <table id="example2" class="table table-bordered table-hover">
+              <a href="{{ url('/pengelola/create') }}" class="btn btn-primary mb-3">Tambah Data</a>
+              <table class="table table-sm table-bordered table-hover w-100 use-datatable">
                 <thead>
                 <tr>
                   <th>Nama</th>
                   <th>Email</th>
                   <th>Telepon</th>
-                  <th>Hak Akses</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($managers as $manager) 
                 <tr>
-                  <td>Harrid</td>
-                  <td>harrid.alfasya@gmail.com</td>
-                  <td>0888777666</td>
-                  <td>Super Administrator</td>
-                  <td>
-                    <button class="btn btn-info btn-sm">Ubah</button>
-                    <button class="btn btn-danger btn-sm">Hapus</button>
+                  <td>{{ $manager->nama }}</td>
+                  <td>{{ $manager->email }}</td>
+                  <td>{{ $manager->telepon }}</td>
+                  <td class="text-center">
+                    <a href="{{ url('/pengelola/edit') . '/' . $manager->id }}" class="btn btn-info btn-sm">Ubah</a>
+                    <button class="btn btn-danger btn-sm btn-hapus" data-id="{{ $manager->id }}">Hapus</button>
                   </td>
                 </tr>
+                @endforeach
+
               </tbody>
               </table>
             </div>
@@ -83,10 +84,6 @@
 @endsection
 
 @section('script')
-<!-- jQuery -->
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- DataTables  & Plugins -->
 <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -100,4 +97,52 @@
 <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script> -->
+@endsection
+
+@section('pagescript')
+<script>
+$(function() {
+  $('.use-datatable').dataTable();
+
+  $('.btn-hapus').on('click', function() {
+    const id = $(this).attr('data-id');
+    Swal.fire({
+      title: 'Apakah anda yakin?',
+      text: "Data akan dihapus",
+      icon: 'warning',
+      reverseButtons: true,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Hapus',
+      cancelButtonText: 'Batalkan',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return axios.delete('/api/pengelola/' + id)
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error.data);
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Gagal menghapus data',
+          })
+        });
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil',
+          text: 'Data berhasil disimpan',
+        })
+      }
+    })
+
+  })
+})
+</script>
 @endsection

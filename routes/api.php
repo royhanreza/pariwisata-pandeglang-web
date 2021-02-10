@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManagerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/pengelola', [ManagerController::class, 'store']);
+Route::delete('/pengelola/{id}', [ManagerController::class, 'destroy']);
+Route::patch('/pengelola/{id}', [ManagerController::class, 'update']);

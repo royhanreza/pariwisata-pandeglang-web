@@ -21,3 +21,6 @@ Route::get('/', function () {
 // Manager (Pengelola)
 Route::get('/pengelola', [ManagerController::class, 'index']);
 Route::get('/pengelola/create', [ManagerController::class, 'create']);
+Route::get('/pengelola/{id}', [ManagerController::class, 'show']);
+Route::get('/pengelola/edit/{id}', [ManagerController::class, 'edit']);
+

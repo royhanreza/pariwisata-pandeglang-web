@@ -28,14 +28,13 @@
   </section>
 
   <!-- Main content -->
-  @verbatim
   <section class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Tambah Pengelola</h3>
+              <h3 class="card-title">Edit Pengelola</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -71,7 +70,6 @@
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
-  @endverbatim
 </div>
 <!-- /.content-wrapper -->
 @endsection
@@ -85,10 +83,10 @@
   let app = new Vue({
     el: '#app',
     data: {
-      name: '',
-      email: '',
-      phone: '',
-      address: '',
+      name: '{{ $manager->nama }}',
+      email: '{{ $manager->email }}',
+      phone: '{{ $manager->telepon }}',
+      address: '{{ $manager->alamat }}',
       loading: false,
     },
     methods: {
@@ -98,7 +96,7 @@
         
         let vm = this;
 
-        axios.post('/api/pengelola', { 
+        axios.patch('/api/pengelola/{{ $manager->id }}', { 
           name: this.name, 
           email: this.email, 
           phone: this.phone, 

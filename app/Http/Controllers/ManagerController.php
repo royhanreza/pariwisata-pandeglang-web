@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Manager;
+use Exception;
 use Illuminate\Http\Request;
 
 class ManagerController extends Controller
@@ -13,7 +15,8 @@ class ManagerController extends Controller
      */
     public function index()
     {
-        return view('manager.index');
+        $managers = Manager::all();
+        return view('manager.index', ['managers' => $managers]);
     }
 
     /**
@@ -34,7 +37,26 @@ class ManagerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $manager = new Manager;
+        $manager->nama = $request->name;
+        $manager->email = $request->email;
+        $manager->telepon = $request->phone;
+        $manager->alamat = $request->address;
+        try {
+            $manager->save();
+            return [
+                'message' => 'data saved successfully',
+                'error' => false,
+                'code' => 200,     
+            ];
+        } catch (Exception $e) {
+            return [
+                'message' => 'internal error',
+                'error' => true,
+                'code' => 400,
+                'errors' => $e,
+            ];
+        }
     }
 
     /**
@@ -56,7 +78,8 @@ class ManagerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $manager = Manager::find($id);
+        return view('manager.edit', ['manager' => $manager]);
     }
 
     /**
@@ -68,7 +91,27 @@ class ManagerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $manager = Manager::find($id);
+
+        $manager->nama = $request->name;
+        $manager->email = $request->email;
+        $manager->telepon = $request->phone;
+        $manager->alamat = $request->address;
+        try {
+            $manager->save();
+            return [
+                'message' => 'data saved successfully',
+                'error' => false,
+                'code' => 200,     
+            ];
+        } catch (Exception $e) {
+            return [
+                'message' => 'internal error',
+                'error' => true,
+                'code' => 400,
+                'errors' => $e,
+            ];
+        }
     }
 
     /**
@@ -79,6 +122,22 @@ class ManagerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $manager = Manager::find($id);
+        try {
+            $manager->delete();
+            return [
+                'message' => 'data deleted successfully',
+                'error' => false,
+                'code' => 200,     
+            ];
+        } catch (Exception $e) {
+            return [
+                'message' => 'internal error',
+                'error' => true,
+                'code' => 400,
+                'errors' => $e,
+            ];
+        }
     }
+
 }
