@@ -10,6 +10,7 @@
 
   <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
   <title>@yield('title')</title>
+  @yield('pagestyle')
 </head>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper" id="app">

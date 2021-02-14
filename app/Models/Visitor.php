@@ -6,13 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Manager extends Model
+class Visitor extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
-    public function places() 
-    {
-        return $this->hasMany(Place::class);
-    }
 }

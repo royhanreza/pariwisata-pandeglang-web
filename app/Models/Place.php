@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Manager extends Model
+class Place extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    public function places() 
+    public function manager()
     {
-        return $this->hasMany(Place::class);
+        return  $this->belongsTo(Manager::class, 'pengelola');
     }
+
 }

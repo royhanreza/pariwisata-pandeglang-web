@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Manager extends Model
+class Vehicle extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    public function places() 
+    public function fuel()
     {
-        return $this->hasMany(Place::class);
+        return $this->belongsTo(Fuel::class, 'jenis_bbm');
     }
 }

@@ -30,7 +30,7 @@
         </li>
 
         <li class="nav-item">
-          <a href="../wisata/index.html" class="nav-link">
+          <a href="{{ url('/wisata') }}" class="nav-link {{ request()->is('wisata') ? 'active' : ''}}">
             <i class="nav-icon fas fa-th"></i>
             <p>
               Wisata
@@ -46,15 +46,15 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="../pengguna/index.html" class="nav-link">
+          <a href="{{ url('/pengunjung') }}" class="nav-link {{ request()->is('pengunjung') ? 'active' : ''}}">
             <i class="nav-icon fas fa-th"></i>
             <p>
-              Pengguna
+              Pengguna (Mobile)
             </p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="../kendaraan/index.html" class="nav-link">
+          <a href="{{ url('/kendaraan') }}" class="nav-link {{ request()->is('kendaraan') ? 'active' : ''}}">
             <i class="nav-icon fas fa-th"></i>
             <p>
               Kendaraan
@@ -62,7 +62,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="../bbm/index.html" class="nav-link">
+          <a href="{{ url('/bbm') }}" class="nav-link {{ request()->is('bbm') ? 'active' : ''}}">
             <i class="nav-icon fas fa-th"></i>
             <p>
               BBM
@@ -70,15 +70,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="../tiket/index.html" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>
-              Tiket Terjual
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="../administrator/index.html" class="nav-link">
+          <a href="{{ url('/administrator') }}" class="nav-link {{ request()->is('administrator') ? 'active' : ''}}">
             <i class="nav-icon fas fa-th"></i>
             <p>
               Administrator
