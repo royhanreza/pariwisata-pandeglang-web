@@ -54,11 +54,11 @@
                 </div>
                 <div class="form-group">
                   <label for="">Password</label>
-                  <input v-model="password" type="password" class="form-control form-control-sm" min="8" required>
+                  <input v-model="password" type="password" class="form-control form-control-sm" min="8">
                 </div>
                 <div class="form-group">
                   <label for="">Ulang Password</label>
-                  <input v-model="confirmPassword" type="password" class="form-control form-control-sm" min="8" required>
+                  <input v-model="confirmPassword" type="password" class="form-control form-control-sm" min="8">
                 </div>
                 <div class="form-group">
                   <label for="">Hak Akses</label>
@@ -99,8 +99,8 @@
       name: '{{ $admin->nama }}',
       username: '{{ $admin->username }}',
       email: '{{ $admin->email }}',
-      password: '{{ $admin->password }}',
-      confirmPassword: '{{ $admin->password }}',
+      password: '',
+      confirmPassword: '',
       role: '{{ $admin->hak_akses }}',
       loading: false,
     },
@@ -134,6 +134,11 @@
               icon: 'success',
               title: 'Berhasil',
               text: 'Data berhasil disimpan',
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                window.location.href = '/administrator';
+              }
             })
           })
           .catch(function (error) {

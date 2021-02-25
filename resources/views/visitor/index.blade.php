@@ -47,7 +47,7 @@
                 <tr>
                   <th>Nama</th>
                   <th>Email</th>
-                  <th>Alamat</th>
+                  <!-- <th>Alamat</th> -->
                   <!-- <th>Action</th> -->
                 </tr>
                 </thead>
@@ -56,7 +56,7 @@
                 <tr>
                   <td>{{ $visitor->nama }}</td>
                   <td>{{ $visitor->email }}</td>
-                  <td>{{ $visitor->alamat }}</td>
+                  <!-- <td>{{ $visitor->alamat }}</td> -->
                 </tr>
                 @endforeach
 

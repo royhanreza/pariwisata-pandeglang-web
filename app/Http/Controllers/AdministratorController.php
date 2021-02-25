@@ -6,6 +6,7 @@ use App\Models\Administrator;
 use App\Models\Fuel;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdministratorController extends Controller
 {
@@ -42,7 +43,7 @@ class AdministratorController extends Controller
         $admin->nama = $request->name;
         $admin->username = $request->username;
         $admin->email = $request->email;
-        $admin->password = $request->password;
+        $admin->password = Hash::make($request->password);
         $admin->hak_akses = $request->role;
         try {
             $admin->save();
@@ -98,7 +99,9 @@ class AdministratorController extends Controller
         $admin->nama = $request->name;
         $admin->username = $request->username;
         $admin->email = $request->email;
-        $admin->password = $request->password;
+        if($request->password !== null) {
+            $admin->password = Hash::make($request->password);
+        }
         $admin->hak_akses = $request->role;
         try {
             $admin->save();

@@ -40,15 +40,30 @@ class PlaceController extends Controller
     public function store(Request $request)
     {
         $place = new Place;
-        $place->nama_wisata = $request->name;
-        $place->harga_tiket = $request->price;
-        $place->alamat = $request->address;
-        $place->deskripsi = $request->description;
-        $place->jam_buka = $request->open;
-        $place->jam_tutup = $request->close;
-        $place->latitude = $request->latitude;
-        $place->longitude = $request->longitude;
-        $place->pengelola = $request->manager;
+        $data = json_decode($request->data);
+        $place->nama_wisata = $data->name;
+        $place->harga_tiket = $data->price;
+        $place->alamat = $data->address;
+        $place->deskripsi = $data->description;
+        $place->jam_buka = $data->open;
+        $place->jam_tutup = $data->close;
+        $place->latitude = $data->latitude;
+        $place->longitude = $data->longitude;
+        $place->pengelola = $data->manager;
+        $gambar = $request->file('image');
+        // $gambar = 'https://www.javatravel.net/wp-content/uploads/2020/07/Pantai-Anyer.jpg';
+        // return [
+        //     'message' => 'data saved successfully',
+        //     'data' => $gambar->getClientOriginalName(),
+        //     'error' => false,
+        //     'code' => 200,     
+        // ];
+        $file_name = time()."_". $gambar->getClientOriginalName();
+ 
+        $gambar->move(public_path('img'), $file_name);
+
+        $place->gambar = $file_name;
+
         try {
             $place->save();
             return [
@@ -100,16 +115,28 @@ class PlaceController extends Controller
     public function update(Request $request, $id)
     {
         $place = Place::find($id);
+        $data = json_decode($request->data);
+        $place->nama_wisata = $data->name;
+        $place->harga_tiket = $data->price;
+        $place->alamat = $data->address;
+        $place->deskripsi = $data->description;
+        $place->jam_buka = $data->open;
+        $place->jam_tutup = $data->close;
+        $place->latitude = $data->latitude;
+        $place->longitude = $data->longitude;
+        $place->pengelola = $data->manager;
+        
+        if($request->hasFile('image')) {
+            $gambar = $request->file('image');
 
-        $place->nama_wisata = $request->name;
-        $place->harga_tiket = $request->price;
-        $place->alamat = $request->address;
-        $place->deskripsi = $request->description;
-        $place->jam_buka = $request->open;
-        $place->jam_tutup = $request->close;
-        $place->latitude = $request->latitude;
-        $place->longitude = $request->longitude;
-        $place->pengelola = $request->manager;
+            $file_name = time()."_". $gambar->getClientOriginalName();
+    
+            $gambar->move(public_path('img'), $file_name);
+
+            $place->gambar = $file_name;
+        
+        }
+
         try {
             $place->save();
             return [
@@ -125,6 +152,7 @@ class PlaceController extends Controller
                 'errors' => $e,
             ];
         }
+
     }
 
     /**

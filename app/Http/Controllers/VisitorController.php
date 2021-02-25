@@ -74,8 +74,10 @@ class VisitorController extends Controller
         $visitor->nama = $request->name;
         $visitor->username = $request->username;
         $visitor->email = $request->email;
-        $visitor->password = $request->password;
-        $visitor->alamat = $request->alamat;
+        if($request->password !== null) {
+            $visitor->password = $request->password;
+        }
+        $visitor->alamat = 'bandung';
         $visitor->foto = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png';
 
         $errors = [];

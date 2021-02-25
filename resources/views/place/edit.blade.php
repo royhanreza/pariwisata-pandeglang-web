@@ -39,7 +39,7 @@
             <!-- /.card-header -->
             <div class="card-body">
               <div class="w-50">
-              <form autocomplete="off" v-on:submit="store">
+              <form autocomplete="off" v-on:submit="store" enctype="multipart/form-data">
                 <div class="form-group">
                   <label for="name">Nama Wisata</label>
                   <input v-model="name" type="text" class="form-control form-control-sm" id="name" required>
@@ -81,6 +81,13 @@
                   <label for="">Longitude</label>
                   <input v-model="longitude" type="text" class="form-control form-control-sm" required>
                 </div>
+                <div>
+                  <img v-bind:src="'{{ url('img') }}' + '/' + image" alt="Image" width="500">
+                </div>
+                <div class="form-group">
+                  <label for="">Gambar</label>
+                  <input type="file" ref="image" class="form-control form-control-sm" accept=".jpg, .jpeg, .png" v-on:change="handleFileUpload">
+                </div>
                 <button type="submit" class="btn btn-primary" v-bind:disabled="loading"><span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Simpan</button>
               </form>
               </div>
@@ -119,6 +126,7 @@
       latitude: '{{ $place->latitude }}',
       longitude: '{{ $place->longitude }}',
       manager: '{{ $place->pengelola }}',
+      image: '{{ $place->gambar }}',
       loading: false,
     },
     methods: {
@@ -128,9 +136,8 @@
         
         let vm = this;
 
-        console.log(vm.$data)
-
-        axios.patch('/api/wisata/{{ $place->id }}', { 
+        // console.log(vm.$data)
+        let inputData = {
           name: this.name,
           price: this.price,
           address: this.address,
@@ -140,7 +147,15 @@
           latitude: this.latitude,
           longitude: this.longitude,
           manager: this.manager,
-        })
+          imageChanged: false,
+        }
+
+        let formData = new FormData();
+
+        formData.append('data', JSON.stringify(inputData));
+        formData.append('image', this.image);
+
+        axios.post('/api/wisata/{{ $place->id }}', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then(function (response) {
           vm.loading = false;
           // console.log(response.data);
@@ -148,6 +163,11 @@
             icon: 'success',
             title: 'Berhasil',
             text: 'Data berhasil disimpan',
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              window.location.href = '/wisata';
+            }
           })
         })
         .catch(function (error) {
@@ -161,6 +181,9 @@
         });
 
 
+      },
+      handleFileUpload: function (){
+        this.image = this.$refs.image.files[0];
       }
     }
   })

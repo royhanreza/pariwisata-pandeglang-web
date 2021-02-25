@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Plan;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PlanController extends Controller
 {
@@ -81,7 +82,24 @@ class PlanController extends Controller
      */
     public function show($id)
     {
-        //
+        // $plan = DB::table('plans')
+        // ->join('places', 'plans.wisata_id', '=', 'places.id')
+        // ->join('managers', 'places.pengelola', '=', 'managers.id')
+        // ->select('plans.*', 'nama_wisata', 'harga_tiket', 'places.alamat as alamat_wisata', 'deskripsi', 'jam_buka', 'jam_tutup', 'places.latitude as latitude_wisata', 'places.longitude as longitude_wisata', 'places.gambar as gambar_wisata', 'managers.nama as pengelola', 'managers.telepon as telepon_pengelola')
+        // ->where('plans.id', $id)
+        // ->get();
+
+        // return response()->json([
+        //     'status' => 'OK',
+        //     'code' => 200,
+        //     'data' => $plan
+        // ]);
+        $plan = Plan::find($id);
+        return response()->json([
+            'status' => 'OK',
+            'code' => 200,
+            'data' => $plan
+        ]);
     }
 
     /**

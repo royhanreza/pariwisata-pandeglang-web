@@ -74,7 +74,7 @@ Route::get('/kendaraan/{id}', function($id) {
 
 Route::post('/wisata', [PlaceController::class, 'store']);
 Route::delete('/wisata/{id}', [PlaceController::class, 'destroy']);
-Route::patch('/wisata/{id}', [PlaceController::class, 'update']);
+Route::post('/wisata/{id}', [PlaceController::class, 'update']);
 // BBM
 Route::post('/bbm', [FuelController::class, 'store']);
 Route::delete('/bbm/{id}', [FuelController::class, 'destroy']);
@@ -93,7 +93,13 @@ Route::post('/administrator', [AdministratorController::class, 'store']);
 Route::delete('/administrator/{id}', [AdministratorController::class, 'destroy']);
 Route::patch('/administrator/{id}', [AdministratorController::class, 'update']);
 // Rencana
-Route::get('/rencana', [PlanController::class, 'index']);
+Route::get('/rencana', function() {
+    return response()->json([
+        'status' => 'OK',
+        'code' => 200,
+        'data' => Plan::all()
+    ]);
+});
 Route::get('/pengunjung/{id}/rencana', function($id) {
     // $plan = Plan::with('wisata')->where('pengunjung_id', $id)->get();
     $plan = DB::table('plans')
@@ -101,6 +107,7 @@ Route::get('/pengunjung/{id}/rencana', function($id) {
         ->join('managers', 'places.pengelola', '=', 'managers.id')
         ->select('plans.*', 'nama_wisata', 'harga_tiket', 'places.alamat as alamat_wisata', 'deskripsi', 'jam_buka', 'jam_tutup', 'places.latitude as latitude_wisata', 'places.longitude as longitude_wisata', 'places.gambar as gambar_wisata', 'managers.nama as pengelola', 'managers.telepon as telepon_pengelola')
         ->where('pengunjung_id', $id)
+        ->where('plans.deleted_at', null)
         ->get();
 
     return response()->json([
@@ -113,3 +120,4 @@ Route::get('/pengunjung/{id}/rencana', function($id) {
 Route::post('/rencana', [PlanController::class, 'store']);
 Route::delete('/rencana/{id}', [PlanController::class, 'destroy']);
 Route::patch('/rencana/{id}', [PlanController::class, 'update']);
+Route::get('/rencana/{id}', [PlanController::class, 'show']);

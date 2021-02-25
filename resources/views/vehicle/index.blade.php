@@ -135,7 +135,12 @@ $(function() {
           icon: 'success',
           title: 'Berhasil',
           text: 'Data berhasil disimpan',
-        })
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              window.location.href = '/kendaraan';
+            }
+          })
       }
     })
 
